@@ -15,5 +15,13 @@ export default defineNuxtConfig({
     typeCheck: true,
     strict: true,
   },
+  nitro : {
+    storage : {
+      signup : {
+        driver : 'fs',
+        base: 'registration'
+      }
+    }
+  },
   modules: ["@nuxt/ui", "@pinia/nuxt"],
 });

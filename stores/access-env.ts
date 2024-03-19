@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import type { DevType, envAccessErrorType } from "~/types/DevType.type";
 
-export const useDevStore = defineStore("DevStore", () => {
+export const useDevStore = defineStore("access-point-store", () => {
   // states
   const dev = ref<DevType | undefined>({
     email: "",
