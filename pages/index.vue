@@ -3,17 +3,17 @@
     <!-- ENTER TOKEN FORM -->
     <form
       class="max-w-sm p-8 mt-20 mb-10 mx-auto border border-gray-700 rounded-md shadow-md space-y-8"
-      @submit.prevent="logIn"
+      @submit.prevent="devStore.logIn"
     >
       <UFormGroup
         size="xl"
         label="Enter Access Token If Already Have"
-        :error="accessError.tokenError && `${accessError.tokenError} token`"
+        :error="devStore.accessError.tokenError && `${devStore.accessError.tokenError} token`"
         name="token"
       >
         <UInput
-          :value="accessToken"
-          @input="($event: Event) => setToken(($event.target as HTMLInputElement).value)"
+          :value="devStore.accessToken"
+          @input="($event: Event) => devStore.setToken(($event.target as HTMLInputElement).value)"
           placeholder="access token"
           class="mt-2"
           :type="tokenVisible ? 'text' : 'password'"
@@ -36,13 +36,13 @@
     <!-- GET TOKEN FORM -->
     <form
       class="max-w-sm p-8 mt-10 mx-auto border border-gray-700 rounded-md shadow-md space-y-4"
-      @submit.prevent="getToken"
+      @submit.prevent="devStore.getToken"
     >
       <UFormGroup
         size="xl"
         label="Email"
         name="email"
-        :error="accessError.mailError && 'enter a valid mail address'"
+        :error="devStore.accessError.mailError && 'enter a valid mail address'"
       >
         <UInput size="lg" placeholder="enter your mail ID" required />
       </UFormGroup>
@@ -53,16 +53,7 @@
 </template>
 
 <script lang="ts" setup>
-const {
-  dev,
-  accessToken,
-  setDev,
-  setToken,
-  getToken,
-  validateToken,
-  logIn,
-  accessError,
-} = useDevStore();
+const devStore = useDevStore();
 
 const tokenVisible = ref(true);
 </script>
