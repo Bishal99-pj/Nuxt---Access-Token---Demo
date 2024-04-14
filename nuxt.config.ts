@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     }
   },
   experimental: {
-    typedPages: true,
+    typedPages: true, 
+    componentIslands: true
   },
   typescript: {
     typeCheck: true,
@@ -23,5 +24,15 @@ export default defineNuxtConfig({
       }
     }
   },
-  modules: ["@nuxt/ui", "@pinia/nuxt"],
+  runtimeConfig : {
+    public : {
+      basePostsUrl : ''
+    }
+  },
+  modules: [
+    "@nuxt/ui",
+    "@pinia/nuxt",
+    '@vueuse/nuxt',
+    'nuxt-security',
+  ],
 });
