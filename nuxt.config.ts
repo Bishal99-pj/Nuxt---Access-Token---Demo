@@ -29,10 +29,18 @@ export default defineNuxtConfig({
       basePostsUrl : ''
     }
   },
+  security : {
+    headers:{
+      contentSecurityPolicy: {
+        'img-src' : false
+      }
+    }
+  },
   modules: [
     "@nuxt/ui",
     "@pinia/nuxt",
     '@vueuse/nuxt',
     'nuxt-security',
+    '@nuxt/image',
   ],
 });
