@@ -1,38 +1,49 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  routeRules : {
-    '/' : {
-      appMiddleware : {
-        'ts-auth-env' : false
+  routeRules: {
+    '/': {
+      appMiddleware: {
+        'ts-auth-env': false
+      }
+    },
+    '/stores' : {
+      security : {
+        headers: {
+          permissionsPolicy: {
+            geolocation: "self"
+          },
+          crossOriginEmbedderPolicy: false
+        }
       }
     }
   },
   experimental: {
-    typedPages: true, 
+    typedPages: true,
     componentIslands: true
   },
   typescript: {
     typeCheck: true,
     strict: true,
   },
-  nitro : {
-    storage : {
-      signup : {
-        driver : 'fs',
+  nitro: {
+    storage: {
+      signup: {
+        driver: 'fs',
         base: 'registration'
       }
     }
   },
-  runtimeConfig : {
-    public : {
-      basePostsUrl : ''
+  runtimeConfig: {
+    public: {
+      basePostsUrl: '',
+      woosmapKey: ''
     }
   },
-  security : {
-    headers:{
+  security: {
+    headers: {
       contentSecurityPolicy: {
-        'img-src' : false
+        'img-src': false
       }
     }
   },

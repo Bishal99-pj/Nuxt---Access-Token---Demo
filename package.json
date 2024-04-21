@@ -13,6 +13,7 @@
     "@nuxt/image": "^1.5.0",
     "@nuxt/ui": "^2.14.2",
     "@pinia/nuxt": "^0.5.1",
+    "@types/woosmap.map": "^1.4.9",
     "@vueuse/nuxt": "^10.9.0",
     "lowdb": "^7.0.1",
     "nuxt": "^3.10.3",
@@ -20,7 +21,7 @@
     "pinia": "^2.1.7",
     "prettier": "^3.2.5",
     "vue": "^3.4.23",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "typescript": "^5.4.2",

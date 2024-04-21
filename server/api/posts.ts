@@ -1,5 +1,5 @@
 import { JSONFilePreset } from "lowdb/node";
-import type { Post } from "~/types/Posts.type";
+import type { Post } from "~/types/Post.type";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
