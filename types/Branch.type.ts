@@ -6,7 +6,7 @@ export type Branch = {
     id: string;
     name: string;
     status: number;
-    geolocation: Geolocation;
+    geolocation: Geoposition;
     details: string;
     address_id: string;
     address: string[];
@@ -16,11 +16,12 @@ export type Branch = {
     parking_available: boolean;
     click_and_collect_available: boolean;
     opening_hours: OpeningHour[];
+    distance?: number;
 }
 
 export type ContactNumber = "0330 333 3303";
 
-export type Geolocation = {
+export type Geoposition = {
     latitude: string;
     longitude: string;
 }

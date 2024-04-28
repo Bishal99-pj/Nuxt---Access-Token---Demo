@@ -7,13 +7,14 @@ export default defineNuxtConfig({
         'ts-auth-env': false
       }
     },
-    '/stores' : {
-      security : {
+    '/branches': {
+      security: {
         headers: {
           permissionsPolicy: {
             geolocation: "self"
           },
-          crossOriginEmbedderPolicy: false
+          crossOriginEmbedderPolicy: 'unsafe-none',
+          crossOriginResourcePolicy: 'same-origin'
         }
       }
     }
@@ -23,7 +24,6 @@ export default defineNuxtConfig({
     componentIslands: true
   },
   typescript: {
-    typeCheck: true,
     strict: true,
   },
   nitro: {
@@ -44,7 +44,7 @@ export default defineNuxtConfig({
     headers: {
       contentSecurityPolicy: {
         'img-src': false
-      }
+      },
     }
   },
   modules: [

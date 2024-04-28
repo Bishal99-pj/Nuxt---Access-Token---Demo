@@ -6,7 +6,7 @@
         <UButton class="text-lg">Go to the posts page</UButton>
       </NuxtLink>
       <!-- Store Locator Demo -->
-      <NuxtLink to="/stores">
+      <NuxtLink to="/branches">
         <UButton class="text-lg">Explore nearby stores</UButton>
       </NuxtLink>
     </div>
