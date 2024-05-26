@@ -2,7 +2,7 @@ export type Branches = {
     data: Branch[];
 }
 
-export type Branch = {
+export type Branch = {  
     id: string;
     name: string;
     status: number;

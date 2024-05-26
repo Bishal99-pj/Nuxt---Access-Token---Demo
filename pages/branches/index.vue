@@ -1,9 +1,7 @@
 <template>
   <div class="w-full h-screen">
     <!-- locator map goes here -->
-    <ClientOnly>
-      <div ref="woosmapRef" id="map"></div>
-    </ClientOnly>
+    <div ref="woosmapRef" id="map"></div>
   </div>
 </template>
 
@@ -13,6 +11,7 @@ import type * as GeoJSON from "geojson";
 import Supercluster from "supercluster";
 
 import type { Geoposition } from "~/types/Branch.type";
+
 declare global {
   interface Window {
     initMap: () => void;
@@ -20,6 +19,10 @@ declare global {
 }
 
 const runtimeConfig = useRuntimeConfig();
+
+const { data, pending, error, refresh } = await useFetch("/api/branches");
+// console.log(data.value?.data);
+
 //-------- STATES
 const currentLoc = ref<Geoposition | null>(null);
 const woosmapRef = ref<HTMLElement | null>(null);
@@ -36,6 +39,7 @@ let infoWindow: woosmap.map.InfoWindow;
 let index: Supercluster;
 let markers: woosmap.map.Marker[] = [];
 const ICON_URL = "https://images.woosmap.com/icons/pin-green.png";
+
 const SUPERCLUSTER_OPTIONS: Supercluster.Options<any, any> = {
   radius: 30,
   extent: 256,
@@ -60,6 +64,7 @@ function getCurrentLocation() {
 // woosmap init
 function initMap(): void {
   infoWindow = new woosmap.map.InfoWindow({});
+
   map = new woosmap.map.Map(woosmapRef.value as HTMLElement, {
     zoom: 13,
     center: center.value,
@@ -92,7 +97,6 @@ function getAllBranches(): Promise<woosmap.map.stores.StoreResponse[]> {
     return storesService
       .search(query)
       .then((response: woosmap.map.stores.StoresSearchResponse) => {
-        
         // TODO: handle initial cluster of branches
         allStores.push(...response.features);
 
@@ -184,7 +188,6 @@ function createCluster(
     map: map,
   });
 
-
   marker.addListener("click", (e) => {
     infoWindow.close();
     const expansionZoom = index.getClusterExpansionZoom(
@@ -204,8 +207,8 @@ function createMarker(
     icon: {
       url: ICON_URL,
       scaledSize: {
-        height: 20,
-        width: 20,
+        height: 50,
+        width: 26,
       },
     },
     position: latlng,
