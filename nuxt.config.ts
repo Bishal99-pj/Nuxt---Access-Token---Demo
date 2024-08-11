@@ -53,5 +53,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-security',
     '@nuxt/image',
+    '@formkit/auto-animate',
   ],
 });

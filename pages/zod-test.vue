@@ -1,106 +1,52 @@
 <template>
-  <div>
-    <form @submit.prevent="submitForm">
-      <div>
-        <label for="name">Name:</label>
-        <input v-model="form.name" type="text" id="name" />
-        <span v-if="errors.name">{{ errors.name }}</span>
-      </div>
-      <div>
-        <label for="email">Email:</label>
-        <input v-model="form.email" type="email" id="email" />
-        <span v-if="errors.email">{{ errors.email }}</span>
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input v-model="form.password" type="password" id="password" />
-        <span v-if="errors.password">{{ errors.password }}</span>
-      </div>
-      <button type="submit">Register</button>
-    </form>
-  </div>
+  <UContainer>
+  <form class="max-w-sm flex flex-col gap-5 mx-auto mt-16" @submit.prevent="handleSubmit">
+    <fieldset v-auto-animate>
+      <label for="email">Email:</label>
+      <UInput
+        type="email" 
+        id="email"
+        v-model="formFields.email"
+        @blur="validateField('email')"
+      />
+      <span v-if="errors.email" class="text-red-600">{{ errors.email.message }}</span>
+    </fieldset>
+
+    <fieldset v-auto-animate>
+      <label for="password">Password:</label>
+      <UInput 
+        id="password"
+        type="password"
+        v-model="formFields.password"
+        @blur="validateField('password')"
+      />
+      <span v-if="errors.password" class="text-red-600">{{ errors.password.message }}</span>
+    </fieldset>
+
+    <UButton type="submit" :disabled="!isValid || pending">
+      {{ pending ? 'Submitting...' : 'Submit' }}
+    </UButton>
+  </form>
+</UContainer>
+
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { z } from "zod";
+<script setup lang="ts">
+import * as z from 'zod'
 
-// Define Zod schema for form validation
-const schema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
-});
+const formSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters')
+})
 
-const form = ref({
-  name: "",
-  email: "",
-  password: "",
-});
+const { formFields, errors, pending, isValid, validateField, onSubmit } = useForm({
+  validationSchema: formSchema,
+  watch: true
+})
 
-const errors = ref({});
-
-// Function to validate form data
-const validateForm = () => {
-  const result = schema.safeParse(form.value);
-  if (result.success) {
-    errors.value = {};
-    return true;
-  } else {
-    errors.value = {};
-    result.error.errors.forEach((err) => {
-      errors.value[err.path[0]] = err.message;
-    });
-    return false;
-  }
-};
-
-// Function to handle form submission
-const submitForm = () => {
-  if (validateForm()) {
-    // Form is valid, proceed with form submission (e.g., API call)
-    alert("Form is valid!");
-  } else {
-    // Form is invalid, errors will be displayed
-    alert("Form is invalid");
-  }
-};
+const handleSubmit = onSubmit(async (data) => {
+  console.log('Form submitted with:', data)
+  await new Promise(resolve => setTimeout(resolve, 1000))
+  alert('Form submitted successfully!')
+})
 </script>
-
-<style scoped>
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 300px;
-  margin: 1rem auto;
-}
-div {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-label {
-  margin-bottom: 5px;
-}
-input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #0056b3;
-}
-span {
-  color: red;
-  font-size: 12px;
-}
-</style>
