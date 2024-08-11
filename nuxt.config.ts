@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
   routeRules: {
     '/': {
       appMiddleware: {
@@ -19,13 +20,16 @@ export default defineNuxtConfig({
       }
     }
   },
+
   experimental: {
     typedPages: true,
     componentIslands: true
   },
+
   typescript: {
     strict: true,
   },
+
   nitro: {
     storage: {
       signup: {
@@ -34,12 +38,14 @@ export default defineNuxtConfig({
       }
     }
   },
+
   runtimeConfig: {
     public: {
       basePostsUrl: '',
       woosmapKey: ''
     }
   },
+
   security: {
     headers: {
       contentSecurityPolicy: {
@@ -47,6 +53,7 @@ export default defineNuxtConfig({
       },
     }
   },
+
   modules: [
     "@nuxt/ui",
     "@pinia/nuxt",
@@ -55,4 +62,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@formkit/auto-animate',
   ],
+
+  compatibilityDate: '2024-08-11',
 });
