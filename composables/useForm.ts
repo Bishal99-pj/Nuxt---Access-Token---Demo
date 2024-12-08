@@ -101,16 +101,16 @@ export function useForm<T extends ZodSchema>(formOptions: UseFormOptions<T>): Us
     }
   }
 
-  
+
   let unwatch = () => { }
   if (formOptions.watch) {
     // Reactive objects are deep watched by default
     watch(formFields, () => {
-      Object.keys(formFields).forEach(field => { 
+      Object.keys(formFields).forEach(field => {
         validateFormField(field)
       })
     })
-  } else unwatch()
+  } else unwatch();
 
   return {
     formFields,
