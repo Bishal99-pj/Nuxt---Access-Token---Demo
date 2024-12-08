@@ -2,13 +2,15 @@
   <form
     novalidate
     @submit.prevent=""
-    class="max-w-md mx-auto mt-16 grid grid-cols-2 gap-4"
+    class="max-w-2xl mx-auto mt-16 grid grid-cols-2 gap-4"
   >
     <UFormGroup
       v-for="field in nl_add_format"
       :key="field"
       :label="field"
-      :required="nl_add_rules[field].includes('required')"
+      :required="
+        nl_add_rules[field] ? nl_add_rules[field].includes('required') : false
+      "
       :error="formErrors[field]"
     >
       <UInput
@@ -20,19 +22,12 @@
     <UButton
       type="submit"
       size="lg"
-      class="col-span-2"
+      class="col-span-2 max-w-sm mx-auto"
       :disabled="submitDisabled"
       block
     >
       Submit
     </UButton>
-
-    <pre>
-      previous - {{ previousFormValue }}
-    </pre>
-    <pre>
-      current - {{ addressFormValue }}
-    </pre>
   </form>
 </template>
 
@@ -86,6 +81,7 @@ const unwatch = watch(
       return;
     }
 
+    // debug code
     // console.log(updatedFormValue, previousFormValue);
 
     // validate each field values
@@ -106,7 +102,53 @@ const unwatch = watch(
 );
 
 function validateField(field: NLAddressField, rules: string[]) {
-  console.log(field, rules);
+  if (!rules || !rules.length) return;
+
+  // Reset any existing error for this field
+  formErrors.value[field] = "";
+
+  const fieldValue = (addressFormValue.value[field] || "").trim(); // Trim the field value
+
+  // Clear all the field error if there's no input
+  if (!fieldValue && rules.includes("required")) {
+    formErrors.value[
+      field
+    ] = `${field} cannot be empty or consist of only spaces`;
+    return;
+  }
+
+  for (const rule of rules) {
+    if (rule.startsWith("regex:")) {
+      const regexParts = rule.match(/^regex:\/(.+)\/([a-z]*)$/);
+      if (!regexParts) return;
+
+      const regexPattern = new RegExp(regexParts[1], regexParts[2]);
+
+      if (!regexPattern.test(fieldValue)) {
+        formErrors.value[field] = `${field} is invalid`;
+        return;
+      }
+    }
+
+    if (rule.startsWith("min")) {
+      const minLength = parseInt(rule.split(":")[1], 10);
+      if (addressFormValue.value[field].length < minLength) {
+        formErrors.value[
+          field
+        ] = `${field} must be min. ${minLength} characters long`;
+        return;
+      }
+    }
+
+    if (fieldValue.length > 32) {
+      let maxLength = 32; // @todo: get from backend
+      if (rule.startsWith("max")) maxLength = parseInt(rule.split(":")[1], 10);
+      formErrors.value[field] = `${field} must be max. ${maxLength} characters long`;
+      return;
+    }
+  }
+  // If all validations pass, clear any existing error for this field
+  formErrors.value[field] = "";
 }
 
 onMounted(() => {

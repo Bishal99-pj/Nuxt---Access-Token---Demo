@@ -22,7 +22,7 @@ const addressFormValue = ref({
   line_2: "parent line-2",
   line_3: "parent line-3",
   town: "amsterdam",
-  postcode: "1100 AD",
+  postcode: "100 AD",
 });
 
 function resetForm()  {
